@@ -3,7 +3,7 @@ package com.rest.pojo;
 public class Team {
 
 	private String teamName;
-	private int totalMatches;
+	private double totalMatches;
 	private int wins;
 	private int loses;
 	private int tie;
@@ -17,11 +17,11 @@ public class Team {
 		this.teamName = teamName;
 	}
 
-	public int getTotalMatches() {
+	public double getTotalMatches() {
 		return totalMatches;
 	}
 
-	public void setTotalMatches(int totalMatches) {
+	public void setTotalMatches(double totalMatches) {
 		this.totalMatches = totalMatches;
 	}
 

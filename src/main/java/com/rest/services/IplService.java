@@ -49,9 +49,15 @@ public class IplService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response registerTeam(Team team) {
-		System.out.println(team.getTeamName());
+		System.out.println("Requested for registration " + team.getTeamName());
 		
-		team.setStatus("Accepted");
+		double winPercent = (team.getWins()/team.getTotalMatches())*100;
+		if(winPercent >=50) {
+			System.out.println("Team has morethan 50% win percent");
+			team.setStatus("Accepted");
+			//Team is accepted hence save team details in db
+		}
+		
 		//If team is accepted make a entry in db
 		return Response.status(201).entity(team).build();
 	}
