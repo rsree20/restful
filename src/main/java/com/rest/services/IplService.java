@@ -42,6 +42,7 @@ public class IplService {
 		score.setBat1("Virat");
 		score.setBat2("Jadeja");
 		
+		
 		return Response.status(200).entity(score).build();
 	}
 	
