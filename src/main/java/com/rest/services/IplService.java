@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 
 import com.rest.pojo.Score;
 import com.rest.pojo.Team;
+import com.rest.services.impl.IplServiceImpl;
 
 @Path("/ipl")
 public class IplService {
@@ -51,15 +52,10 @@ public class IplService {
 	public Response registerTeam(Team team) {
 		System.out.println("Requested for registration " + team.getTeamName());
 		
-		double winPercent = (team.getWins()/team.getTotalMatches())*100;
-		if(winPercent >=50) {
-			System.out.println("Team has morethan 50% win percent");
-			team.setStatus("Accepted");
-			//Team is accepted hence save team details in db
-		}
+		IplServiceImpl serviceImpl = new IplServiceImpl();
 		
-		//If team is accepted make a entry in db
-		return Response.status(201).entity(team).build();
+		Response response = serviceImpl.registerTeam(team);
+		return response;
 	}
 	
 }

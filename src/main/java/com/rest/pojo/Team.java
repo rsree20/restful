@@ -1,7 +1,12 @@
 package com.rest.pojo;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Team {
 
+	@Id
 	private String teamName;
 	private double totalMatches;
 	private int wins;
