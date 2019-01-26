@@ -29,12 +29,14 @@ public class IplDaoImpl implements IplDaoInterf {
 		}catch (ConstraintViolationException e) {
 			System.out.println("User already exist");
 			e.printStackTrace();
-			throw new DaoException("Your already registered for ipl!! Please start practice!!");
+			throw new DaoException(11000, "Your already registered for ipl!! Please start practice!!");
+		} catch(NullPointerException npe) {
+			npe.printStackTrace();
+			throw new DaoException(11002, "Operation performed on null!!");
 		}
 		catch (Exception e) {
 			e.printStackTrace();
-			throw new DaoException(
-					"Something went wrong in database!! Seems database is down.. Please try after some time!!");
+			throw new DaoException(11001, "Something went wrong in database!! Seems database is down.. Please try after some time!!");
 		}
 
 	}

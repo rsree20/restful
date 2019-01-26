@@ -2,6 +2,7 @@ package com.rest.services.impl;
 
 import javax.ws.rs.core.Response;
 
+import com.google.gson.Gson;
 import com.rest.exception.DaoException;
 import com.rest.pojo.IplResponse;
 import com.rest.pojo.Team;
@@ -12,6 +13,7 @@ public class IplServiceImpl {
 
 	public Response registerTeam(Team team) {
 		IplResponse res = new IplResponse();
+		Gson gson = new Gson();
 		
 		if(team.getTeamName() == null) {
 			res.setErrorCode("002");
@@ -35,16 +37,22 @@ public class IplServiceImpl {
 			try {
 				dao.registerTeam(team);				
 			} catch(DaoException daoEx) {
-				res.setErrorCode("001");
+				if(daoEx.getReasonCode() == 11000) {
+					res.setErrorCode("001");					
+				} else if (daoEx.getReasonCode() == 11002) {
+					res.setErrorCode("005");
+				} else {
+					res.setErrorCode("004");
+				}
 				res.setErrorMessage(daoEx.getMessage());
-				res.setTeam(null);
 				return Response.status(200).entity(res).build();
 			}
 			//Team is accepted hence save team details in db
 		}
+		
 		res.setErrorCode("000");
 		res.setErrorMessage("success");
-		res.setTeam(team);
+		res.setResponseData(gson.toJson(team));
 		//If team is accepted make a entry in db
 		return Response.status(200).entity(res).build();
 	}

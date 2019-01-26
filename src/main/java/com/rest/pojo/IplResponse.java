@@ -4,7 +4,7 @@ public class IplResponse {
 
 	private String errorCode;
 	private String errorMessage;
-	private Team team;
+	private String responseData;
 
 	public String getErrorCode() {
 		return errorCode;
@@ -22,12 +22,12 @@ public class IplResponse {
 		this.errorMessage = errorMessage;
 	}
 
-	public Team getTeam() {
-		return team;
+	public String getResponseData() {
+		return responseData;
 	}
 
-	public void setTeam(Team team) {
-		this.team = team;
+	public void setResponseData(String responseData) {
+		this.responseData = responseData;
 	}
 
 }
