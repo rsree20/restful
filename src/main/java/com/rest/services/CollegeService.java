@@ -30,6 +30,30 @@ public class CollegeService {
 			return Response.status(200).entity(res).build();
 		}
 		
+		if(s.getCollegeName().equalsIgnoreCase("Aurora")) {
+			if(s.getStdId() < 1 || s.getStdId() > 999) {
+				res.setErrorCode("005");
+				res.setErrorMessage("This student id is not valid for your college!!");
+				return Response.status(200).entity(res).build();
+			}
+		}
+		
+		if(s.getCollegeName().equalsIgnoreCase("CBIT")) {
+			if(s.getStdId() < 1000 || s.getStdId() > 9999) {
+				res.setErrorCode("005");
+				res.setErrorMessage("This student id is not valid for your college!!");
+				return Response.status(200).entity(res).build();
+			}
+		}
+		
+		if(s.getCollegeName().equalsIgnoreCase("GRIT")) {
+			if(s.getStdId() < 10000 || s.getStdId() > 19999) {
+				res.setErrorCode("005");
+				res.setErrorMessage("This student id is not valid for your college!!");
+				return Response.status(200).entity(res).build();
+			}
+		}
+		
 		//Hibernate/jdbc logic......
 		
 		CollegeDao dao = new CollegeDao();

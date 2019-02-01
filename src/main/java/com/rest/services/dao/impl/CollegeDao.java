@@ -19,8 +19,8 @@ public class CollegeDao {
 	
 		try {
 			Session session = sf.openSession();
-			System.out.println(10/0);
 			session.save(s);
+			session.beginTransaction().commit();
 		} catch (Exception e) {
 			throw new DaoException("Something went wrong with Database");
 		}
