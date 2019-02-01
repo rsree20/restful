@@ -1,7 +1,5 @@
 package com.rest.services.dao.impl;
 
-import java.sql.SQLIntegrityConstraintViolationException;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -19,7 +17,7 @@ public class IplDaoImpl implements IplDaoInterf {
 		sf = cfg.buildSessionFactory();
 	}
 	
-	public void registerTeam(Team team) {
+	public void registerTeam(Team team) throws DaoException {
 		try {
 			System.out.println("Open Session here");
 			Session session = sf.openSession();

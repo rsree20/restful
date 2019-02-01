@@ -1,6 +1,6 @@
 package com.rest.exception;
 
-public class DaoException extends RuntimeException {
+public class DaoException extends Exception {
 
 	private int reasonCode;
 	private String message;
@@ -11,6 +11,11 @@ public class DaoException extends RuntimeException {
 		this.reasonCode = reasonCode;
 	}
 
+	public DaoException(String message) {
+		super(message);
+		this.message = message;
+	}
+	
 	public DaoException() {
 
 	}
