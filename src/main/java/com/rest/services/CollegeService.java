@@ -6,8 +6,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import org.hibernate.hql.internal.ast.ErrorReporter;
+import org.omg.CORBA.RepositoryIdHelper;
+
 import com.google.gson.Gson;
 import com.rest.exception.DaoException;
+import com.rest.pojo.ExceptionRespone;
 import com.rest.pojo.IplResponse;
 import com.rest.pojo.Student;
 import com.rest.pojo.Teacher;
@@ -21,36 +25,36 @@ public class CollegeService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addStudent(Student s) {
-		IplResponse res = new IplResponse();
+		ExceptionRespone response = new ExceptionRespone();
 		Gson gson = new Gson();
 		
 		if(s.getStdId() == 0) {
-			res.setErrorCode("001");
-			res.setErrorMessage("Student Id should not be empty or null");
-			return Response.status(200).entity(res).build();
+			response.setErrorCode("001");
+			response.setErrorMessage("Student Id should not be empty or null");
+			return Response.status(500).entity(response).build();
 		}
 		
 		if(s.getCollegeName().equalsIgnoreCase("Aurora")) {
 			if(s.getStdId() < 1 || s.getStdId() > 999) {
-				res.setErrorCode("005");
-				res.setErrorMessage("This student id is not valid for your college!!");
-				return Response.status(200).entity(res).build();
+				response.setErrorCode("005");
+				response.setErrorMessage("This student id is not valid for your college!!");
+				return Response.status(500).entity(response).build();
 			}
 		}
 		
 		if(s.getCollegeName().equalsIgnoreCase("CBIT")) {
 			if(s.getStdId() < 1000 || s.getStdId() > 9999) {
-				res.setErrorCode("005");
-				res.setErrorMessage("This student id is not valid for your college!!");
-				return Response.status(200).entity(res).build();
+				response.setErrorCode("005");
+				response.setErrorMessage("This student id is not valid for your college!!");
+				return Response.status(500).entity(response).build();
 			}
 		}
 		
 		if(s.getCollegeName().equalsIgnoreCase("GRIT")) {
 			if(s.getStdId() < 10000 || s.getStdId() > 19999) {
-				res.setErrorCode("005");
-				res.setErrorMessage("This student id is not valid for your college!!");
-				return Response.status(200).entity(res).build();
+				response.setErrorCode("005");
+				response.setErrorMessage("This student id is not valid for your college!!");
+				return Response.status(500).entity(response).build();
 			}
 		}
 		
@@ -60,16 +64,12 @@ public class CollegeService {
 		try {
 			dao.saveStudent(s);
 		} catch (DaoException e) {
-			res.setErrorCode("003");
-			res.setErrorMessage(e.getMessage());
-			return Response.status(200).entity(res).build();
+			response.setErrorCode("003");
+			response.setErrorMessage(e.getMessage());
+			return Response.status(500).entity(response).build();
 		}
 		
-		res.setErrorCode("000");
-		res.setErrorMessage("success");
-		res.setResponseData(gson.toJson(s));
-		
-		return Response.status(200).entity(res).build();
+		return Response.status(200).entity(s).build();
 	}
 	
 	@Path("/saveTeacher")
@@ -77,21 +77,25 @@ public class CollegeService {
 	@Consumes("application/json")
 	@Produces("application/json")
 	public Response addTeacher(Teacher t) {
-		IplResponse res = new IplResponse();
-		Gson gson = new Gson();
+		ExceptionRespone errorRes = new ExceptionRespone();
 		
-		if(t.getTeacherId() == 0) {
-			res.setErrorCode("002");
-			res.setErrorMessage("Teacher Id should not be empty or null");
-			return Response.status(200).entity(res).build();
+		if(t.getName() == null || t.getName().isEmpty()) {
+			errorRes.setErrorCode("006");
+			errorRes.setErrorMessage("Teacher Name should not be null or empty!!");
+			return Response.status(500).entity(errorRes).build();
 		}
 		
-		//Hibernate/jdbc logic......
-		res.setErrorCode("000");
-		res.setErrorMessage("success");
-		res.setResponseData(gson.toJson(t));
+		CollegeDao dao = new CollegeDao();
+		try {
+			dao.saveTeacher(t);
+		} catch (DaoException e) {
+			e.printStackTrace();
+			errorRes.setErrorCode("003");
+			errorRes.setErrorMessage(e.getMessage());
+			return Response.status(500).entity(errorRes).build();
+		}
 		
-		return Response.status(200).entity(res).build();
+		return Response.status(201).entity(t).build();
 	}
 	
 }

@@ -21,5 +21,6 @@
 		<!-- List of XML mapping files -->
 		<mapping class="com.rest.pojo.Team" />
 		<mapping class="com.rest.pojo.Student" />
+		<mapping class="com.rest.pojo.Teacher" />
 	</session-factory>
 </hibernate-configuration>

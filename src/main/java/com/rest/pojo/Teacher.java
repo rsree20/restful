@@ -1,7 +1,12 @@
 package com.rest.pojo;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Teacher {
 
+	@Id
 	private int teacherId;
 	private String name;
 	private String collegeName;
